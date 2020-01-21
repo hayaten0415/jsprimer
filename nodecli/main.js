@@ -2,10 +2,20 @@
 const program = require("commander");
 // fsモジュールをfsオブジェクトとしてインポートする
 const fs = require("fs");
+// markedモジュールをmarkedオブジェクトとしてインポートする
+const marked = require("marked");
 
-// コマンドライン引数をcommanderでパースする
+//gfmオプションを定義する
+program.option("--gfm", "GFMを有効にする");
 program.parse(process.argv);
 const filePath = program.args[0];
+
+
+// コマンドライン引数のオプションを取得し、デフォルトのオプションを上書きする
+const cliOptions = {
+    gfm: false,
+    ...program.opts(),
+};
 
 // ファイルを非同期で読み込む
 fs.readFile(filePath, { encoding: "utf8"}, (err, file) => {
@@ -15,5 +25,10 @@ fs.readFile(filePath, { encoding: "utf8"}, (err, file) => {
         process.exit(1);
         return;
     }
-    console.log(file);
+    // MarkdownファイルをHTML文字列へ変換
+    const html = marked(file, {
+      // オプションの値を使用する
+      gfm: cliOptions.gfm
+    });
+    console.log(html);
 });
