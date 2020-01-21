@@ -2,8 +2,8 @@
 const program = require("commander");
 // fsモジュールをfsオブジェクトとしてインポートする
 const fs = require("fs");
-// markedモジュールをmarkedオブジェクトとしてインポートする
-const marked = require("marked");
+// md2htmlモジュールをインポートする
+const md2html = require("./md2html");
 
 //gfmオプションを定義する
 program.option("--gfm", "GFMを有効にする");
